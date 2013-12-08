@@ -53,7 +53,10 @@ void //CgLoader::
 //    //cgDestroyEffect(_Effect);
 //}
 VertexStrategy::VertexStrategy(Types::str effectfile,CGcontext _Context){
-    _Profile=cgGetProfile(effectfile);  //コンパイルしたときのプロフィールをプログラムから読み取る
+    //多分エフェクトファイルをオンラインでコンパイルしてから、pcの最適なプロフィールを選んで実行するのが
+    //いいやり方なのか
+    _Profile=cgGetProfile("glslv");  //コンパイルしたときのプロフィールを設定
+    printf_s(cgGetProfileString(_Profile));
     _VertexProgram =
       cgCreateProgramFromFile(
         _Context,  /* Cg runtime context */
@@ -78,7 +81,7 @@ VertexStrategy::~VertexStrategy(){
     printf_s("destructed vertex");
 }
 FragmentStrategy::FragmentStrategy(Types::str effectfile,CGcontext _Context){
-    _Profile=cgGetProfile(effectfile);  //コンパイルしたときのプロフィールをプログラムから読み取る
+    _Profile=cgGetProfile("glslf");  //コンパイルしたときのプロフィールをプログラムから読み取る
     _FragmentProgram=
       cgCreateProgramFromFile(
         _Context,  /* Cg runtime context */

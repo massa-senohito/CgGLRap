@@ -11,31 +11,31 @@ CGcontext CgUtil::InitCg(){
 #define CHECKER(state) _err=checker(state);
 bool checkForCgError(Types::str situation,Types::str myProgramName,CGcontext myCgContext)
 {
-  CGerror error;
-  const char *string = cgGetLastErrorString(&error);
-  
-  if (error != CG_NO_ERROR) {
-    if (error == CG_COMPILER_ERROR) {
-      fprintf(stderr,
-             "Program: %s\n"
-             "Situation: %s\n"
-             "Error: %s\n\n"
-             "Cg compiler output...\n%s",
-             myProgramName, situation, string,
-             cgGetLastListing(myCgContext));
-    } else {
-      fprintf(stderr,
-              "Program: %s\n"
-              "Situation: %s\n"
-              "Error: %s",
-              myProgramName, situation, string);
+    CGerror error;
+    const char *string = cgGetLastErrorString(&error);
+
+    if (error != CG_NO_ERROR) {
+        if (error == CG_COMPILER_ERROR) {
+            fprintf(stderr,
+                "Program: %s\n"
+                "Situation: %s\n"
+                "Error: %s\n\n"
+                "Cg compiler output...\n%s",
+                myProgramName, situation, string,
+                cgGetLastListing(myCgContext));
+        } else {
+            fprintf(stderr,
+                "Program: %s\n"
+                "Situation: %s\n"
+                "Error: %s",
+                myProgramName, situation, string);
+        }
+        return true;
     }
-    return true;
-  }
-  return false;
+    return false;
 }
 //http://wiki.livedoor.jp/mikk_ni3_92/d/CgFX%CA%D401
-
+//IStrategy ve=new VertexStrategy(""); ve->bind
 CgLoader::CgLoader(Types::str effectfile,Shader s)
 {
     //Cgプログラムのリストみたいのを生成している、すべてのCgプログラムはこの中に属しなければならない。
@@ -46,9 +46,7 @@ CgLoader::CgLoader(Types::str effectfile,Shader s)
         auto p=cgGetSupportedProfile(i);
         printf_s("%s",cgGetProfileString(p));
         printf_s(" = %d\n",cgGLIsProfileSupported(p));
-
     }
-    printf_s("%d  %d %d\n",GL_TRUE,CG_TRUE,GL_FALSE);
 #endif
     auto checker=[effectfile,_Context](Types::str sit)
       {
